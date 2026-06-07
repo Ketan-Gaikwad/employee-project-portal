@@ -361,6 +361,10 @@ Password: Admin@2026Portal
 
 These credentials have full access to test all application features including:
 
+## Note
+
+The backend is deployed on Render free tier. After inactivity, the first request may take a few seconds to wake up.
+
 Dashboard
 Employee Management
 Project Management
