@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
-// AUTH ROUTES
+
 app.post("/auth/register", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -82,7 +82,7 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-// DASHBOARD ROUTE
+
 app.get("/dashboard", authMiddleware, async (req, res) => {
   try {
     const totalEmployees = await prisma.employee.count();
@@ -123,7 +123,7 @@ app.post("/upload", authMiddleware, upload.single("profileImage"), (req, res) =>
   });
 });
 
-// EMPLOYEE ROUTES
+
 app.get("/employees", authMiddleware, async (req, res) => {
   try {
     const employees = await prisma.employee.findMany();
@@ -223,7 +223,7 @@ app.delete("/employees/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// PROJECT ROUTES
+
 app.get("/projects", authMiddleware, async (req, res) => {
   try {
     const projects = await prisma.project.findMany();
@@ -301,7 +301,7 @@ app.delete("/projects/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ASSIGNMENT ROUTES
+
 app.post("/assign", authMiddleware, async (req, res) => {
   try {
     const { employeeId, projectId } = req.body;
