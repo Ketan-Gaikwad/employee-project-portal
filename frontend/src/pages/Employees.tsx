@@ -40,7 +40,6 @@ function Employees() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState<EmployeeForm>(initialForm);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -69,34 +68,27 @@ function Employees() {
     });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    const imageData = new FormData();
-    imageData.append("profileImage", file);
+    const reader = new FileReader();
 
-    try {
-      setIsUploading(true);
-
-      const response = await api.post("/upload", imageData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
+    reader.onloadend = () => {
       setForm({
         ...form,
-        profileImage: response.data.imageUrl,
+        profileImage: reader.result as string,
       });
 
-      toast.success("Profile image uploaded successfully");
-    } catch {
-      toast.error("Failed to upload image");
-    } finally {
-      setIsUploading(false);
-    }
+      toast.success("Profile image selected successfully");
+    };
+
+    reader.onerror = () => {
+      toast.error("Failed to read image");
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const openAddModal = () => {
@@ -218,6 +210,7 @@ function Employees() {
                       </div>
                     )}
                   </td>
+
                   <td className="p-4 font-medium">{employee.fullName}</td>
                   <td className="p-4">{employee.email}</td>
                   <td className="p-4">{employee.phone}</td>
@@ -226,6 +219,7 @@ function Employees() {
                   <td className="p-4">
                     {new Date(employee.joiningDate).toLocaleDateString()}
                   </td>
+
                   <td className="p-4 flex gap-2">
                     <button
                       onClick={() => openEditModal(employee)}
@@ -233,6 +227,7 @@ function Employees() {
                     >
                       Edit
                     </button>
+
                     <button
                       onClick={() => deleteEmployee(employee.id)}
                       className="bg-red-600 text-white px-3 py-1 rounded cursor-pointer transition-all duration-200 hover:scale-105"
@@ -342,12 +337,6 @@ function Employees() {
                   className="w-full border p-3 rounded cursor-pointer"
                 />
 
-                {isUploading && (
-                  <p className="text-sm text-blue-600 mt-2">
-                    Uploading image...
-                  </p>
-                )}
-
                 {form.profileImage && (
                   <div className="mt-4 flex items-center gap-4">
                     <img
@@ -378,8 +367,7 @@ function Employees() {
 
                 <button
                   type="submit"
-                  disabled={isUploading}
-                  className="px-5 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 cursor-pointer disabled:opacity-60"
+                  className="px-5 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 cursor-pointer"
                 >
                   {editingId ? "Update Employee" : "Save Employee"}
                 </button>
