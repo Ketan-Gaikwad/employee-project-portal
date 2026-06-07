@@ -78,10 +78,6 @@ function Login() {
         >
           {isLoggingIn ? "Please wait..." : "Login"}
         </button>
-
-        <p className="text-xs text-slate-500 mt-4 text-center">
-          If login takes time, the backend may be waking up on Render free tier.
-        </p>
       </div>
     </div>
   );
