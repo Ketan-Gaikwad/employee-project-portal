@@ -345,11 +345,27 @@ employee-project-portal/
 
 ## Frontend URL
 
-To be added after deployment.
+https://employee-project-portal.vercel.app/
 
 ## Backend URL
 
-To be added after deployment.
+https://employee-project-backend-ssq0.onrender.com
+
+## Demo Credentials
+
+Use the following credentials to access the application:
+
+Email: admin@portal.com
+
+Password: Admin@2026Portal
+
+These credentials have full access to test all application features including:
+
+Dashboard
+Employee Management
+Project Management
+Assignments Management
+Employee Profile Image Upload
 
 -------------------------------------------------------------------------------------------
 

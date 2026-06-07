@@ -5,8 +5,8 @@ import api from "../services/api";
 function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("admin@example.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
