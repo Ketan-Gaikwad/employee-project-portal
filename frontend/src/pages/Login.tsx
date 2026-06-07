@@ -5,8 +5,12 @@ import api from "../services/api";
 function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(
+    () => sessionStorage.getItem("loginEmail") || ""
+  );
+  const [password, setPassword] = useState(
+    () => sessionStorage.getItem("loginPassword") || ""
+  );
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
