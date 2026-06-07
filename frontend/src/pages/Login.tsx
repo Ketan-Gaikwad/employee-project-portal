@@ -11,12 +11,19 @@ function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
+      const response = await api.post(
+        "/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          timeout: 30000,
+        }
+      );
 
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
@@ -44,6 +51,8 @@ function Login() {
           className="w-full border p-3 rounded mb-4"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="off"
+          required
         />
 
         <label className="block mb-2 font-medium">Password</label>
@@ -52,9 +61,14 @@ function Login() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="off"
+          required
         />
 
-        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-3 rounded font-semibold cursor-pointer"
+        >
           Login
         </button>
       </form>
