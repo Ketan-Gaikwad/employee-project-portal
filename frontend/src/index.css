@@ -34,3 +34,21 @@ button {
 button:hover {
   transform: translateY(-1px);
 }
+
+.animated-login-bg {
+  background: linear-gradient(-45deg, #eff6ff, #f8fafc, #e0f2fe, #eef2ff);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

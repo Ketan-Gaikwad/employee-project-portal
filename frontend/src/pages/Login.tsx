@@ -36,10 +36,10 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
+    <div className="min-h-screen animated-login-bg flex items-center justify-center px-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white w-full max-w-md p-8 rounded-2xl shadow"
+        className="bg-white/90 backdrop-blur w-full max-w-md p-8 rounded-2xl shadow-2xl border border-white/60"
       >
         <h1 className="text-2xl font-bold text-center mb-8">
           Employee Project Portal
