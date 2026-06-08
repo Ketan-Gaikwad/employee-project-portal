@@ -1,61 +1,78 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import toast from "react-hot-toast";
 
 function Login() {
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("admin@portal.com");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      toast.error("Please enter email and password");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const response = await api.post("/auth/login", {
         email,
         password,
       });
 
       localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+
+      toast.success("Login successful");
+
+      window.location.href = "/dashboard";
     } catch {
-      setError("Invalid email or password");
+        toast.error("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white w-full max-w-md p-8 rounded-xl shadow"
+        className="bg-white w-full max-w-md p-8 rounded-2xl shadow"
       >
-        <h1 className="text-2xl font-bold text-center mb-6">
+        <h1 className="text-2xl font-bold text-center mb-8">
           Employee Project Portal
         </h1>
 
-        {error && (
-          <p className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</p>
-        )}
+        <div className="mb-5">
+          <label className="block font-semibold mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border p-3 rounded"
+            required
+          />
+        </div>
 
-        <label className="block mb-2 font-medium">Email</label>
-        <input
-          className="w-full border p-3 rounded mb-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="mb-6">
+          <label className="block font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border p-3 rounded"
+            required
+          />
+        </div>
 
-        <label className="block mb-2 font-medium">Password</label>
-        <input
-          className="w-full border p-3 rounded mb-6"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
-          Login
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 disabled:opacity-60"
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
