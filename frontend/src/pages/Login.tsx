@@ -3,7 +3,7 @@ import api from "../services/api";
 import toast from "react-hot-toast";
 
 function Login() {
-  const [email, setEmail] = useState("admin@portal.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
